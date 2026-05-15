@@ -1,0 +1,38 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: innovatech-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: innovatech
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: innovatech
+      MYSQL_PASSWORD: innovatech123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - innovatech-net
+
+  backend:
+    build: .
+    container_name: innovatech-backend
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/innovatech
+      SPRING_DATASOURCE_USERNAME: innovatech
+      SPRING_DATASOURCE_PASSWORD: innovatech123
+    ports:
+      - "8080:8080"
+    networks:
+      - innovatech-net
+
+volumes:
+  mysql_data:
+
+networks:
+  innovatech-net:
+    driver: bridge
