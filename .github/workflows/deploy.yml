@@ -29,15 +29,15 @@ jobs:
 
       - name: Build backend image
         run: |
-          docker build --file Dockerfile --tag ${{ secrets.ECR_REPOSITORY }}:latest .
+          docker build -t innovatech-backend:latest .
 
       - name: Tag backend image
         run: |
-          docker tag ${{ secrets.ECR_REPOSITORY }}:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+          docker tag innovatech-backend:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/innovatech-backend:latest
 
       - name: Push backend image to ECR
         run: |
-          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_REPOSITORY }}:latest
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/innovatech-backend:latest
 
       - name: Deploy backend to ECS
         run: |
